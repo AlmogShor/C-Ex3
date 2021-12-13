@@ -15,4 +15,6 @@ int textVal();
 
 int calcCharVal(char c);
 
+int idagomla();
+
 #endif //C_EX3_EX3_H

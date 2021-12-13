@@ -5,6 +5,7 @@
 
 char word[WORD];
 char text[TXT];
+char idaGomla[];
 int word_val;
 
 int main() {
@@ -89,14 +90,15 @@ int calcCharVal(char c) { // todo: toupper/tolower functions?
 }
 
 int idagomla(){
+
     for (int i = 0; i < strlen(word); ++i) {
-        if(word[i]>='a'&&word[i]<='z'){
-
+        if(islower(word[i])){
+            idaGomla[i] = 'z' - word[i] + 'a';
         }
-        else if(word[i]>='A'&&word[i]<='Z'){
-
+        else if(isupper(word[i])){
+            idaGomla[i] = 'Z' - word[i] + 'A';
         }
     }
-
+return 0;
 }
 
