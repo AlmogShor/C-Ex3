@@ -62,7 +62,7 @@ int textVal() {
             for (int i = start; i < end; ++i) {
                 putchar(text[i]);
             }
-            putchar(' ');
+            putchar(TILDA);
             curr_sum = curr_sum - calcCharVal(text[start++]);
             if (end != strlen(text)) {
                 curr_sum += calcCharVal(text[end++]);
@@ -87,3 +87,16 @@ int calcCharVal(char c) { // todo: toupper/tolower functions?
     }
     return val;
 }
+
+int idagomla(){
+    for (int i = 0; i < strlen(word); ++i) {
+        if(word[i]>='a'&&word[i]<='z'){
+
+        }
+        else if(word[i]>='A'&&word[i]<='Z'){
+
+        }
+    }
+
+}
+
