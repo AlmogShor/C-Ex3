@@ -17,4 +17,6 @@ int calcCharVal(char c);
 
 int idagomla();
 
+int textAtbash();
+
 #endif //C_EX3_EX3_H

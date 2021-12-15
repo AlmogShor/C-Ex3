@@ -5,7 +5,7 @@
 
 char word[WORD];
 char text[TXT];
-char idaGomla[];
+char idaGomla[WORD];
 int word_val;
 
 int main() {
@@ -89,16 +89,67 @@ int calcCharVal(char c) { // todo: toupper/tolower functions?
     return val;
 }
 
-int idagomla(){
-
+int idagomla() {
     for (int i = 0; i < strlen(word); ++i) {
-        if(islower(word[i])){
+        if (islower(word[i])) {
             idaGomla[i] = 'z' - word[i] + 'a';
-        }
-        else if(isupper(word[i])){
+        } else if (isupper(word[i])) {
             idaGomla[i] = 'Z' - word[i] + 'A';
+        } else {
+            idaGomla[i] = word[i];
         }
     }
-return 0;
+    return 0;
 }
 
+int textAtbash() {
+    int curr_idx = 0;
+    char reverse[strlen(idaGomla)];
+    char tmp_str[TXT] = {0};
+    for (int i = 0; i < strlen(idaGomla); ++i) {
+        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
+    }
+    for (int i = 0; i < strlen(text); i++) { // i == current start index
+        for (int j = 0; j < strlen(idaGomla); j++) {
+            if (isspace(text[i + j])) { // add and ignore spaces
+                tmp_str[curr_idx++] = text[i + j];
+                j--; // check word[j] in next iteration
+            } else if (text[i + j] == idaGomla[j]) {
+                tmp_str[curr_idx++] = idaGomla[j];
+            }
+            if (j == strlen(idaGomla) - 1) {
+                tmp_str[curr_idx++] = TILDA;
+            }
+            if (text[i + j] != idaGomla[j]) {
+                curr_idx -= j;
+                break;
+            }
+        }
+        for (int j = 0; j < strlen(reverse); j++) {
+            if (isspace(text[i + j])) { // add and ignore spaces
+                tmp_str[curr_idx++] = text[i + j];
+                j--; // check word[j] in next iteration
+            } else if (text[i + j] == reverse[j]) {
+                tmp_str[curr_idx++] = reverse[j];
+            }
+            if (j == strlen(reverse) - 1) {
+                tmp_str[curr_idx++] = TILDA;
+            }
+            if (text[i + j] != reverse[j]) {
+                curr_idx -= j;
+                break;
+            }
+        }
+    }
+    for (int k = strlen(tmp_str); k >= 0; k--) {
+        if (tmp_str[k] == TILDA) {
+            break;
+        }
+        tmp_str[k] = 0;
+    }
+    puts(tmp_str);
+    return 0;
+}
+
+//int
+// array of int -> 0 = not added, 1 = added (index = char at index)
