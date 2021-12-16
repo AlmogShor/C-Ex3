@@ -3,9 +3,12 @@
 #include <ctype.h>
 #include "Ex3.h"
 
+void reverseString(char *reverse);
+
 int main() {
     readWord();
     readText();
+    printf("\n");
     word_val = wordVal(word);
     idagomla();
     printf("Gematria Sequences: ");
@@ -24,7 +27,7 @@ int main() {
 int readWord() { // todo: how to check if scan was successful
     char inp_word[WORD];
     char c;
-    scanf("Enter word: %s", inp_word);
+    fgets(inp_word, WORD, stdin);
     for (int i = 0; i < WORD; ++i) {
         c = inp_word[i];
         word[i] = c;
@@ -38,7 +41,7 @@ int readWord() { // todo: how to check if scan was successful
 int readText() {
     char inp_txt[TXT];
     char c;
-    scanf("Enter text: %s", inp_txt);
+    fgets(inp_txt, TXT, stdin);
     for (int i = 0; i < TXT; ++i) {
         c = inp_txt[i];
         text[i] = c;
@@ -61,13 +64,23 @@ int wordVal() {
 
 int textVal() {
     int start = 0, end = 0;
-    int curr_sum = 0;
+    int curr_sum = 0, flag = 0;
     while (start < strlen(text) && !(end == strlen(text) && curr_sum < word_val)) {
         if (curr_sum == word_val) {
             for (int i = start; i < end; ++i) {
+                if (!isalpha(text[i])) {
+                    start++;
+                } else {
+                    break;
+                }
+            }
+            if (flag) {
+                putchar(TILDA);
+            }
+            for (int i = start; i < end; ++i) {
                 putchar(text[i]);
             }
-            putchar(TILDA);
+            flag++;
             curr_sum = curr_sum - calcCharVal(text[start++]);
             if (end != strlen(text)) {
                 curr_sum += calcCharVal(text[end++]);
@@ -107,52 +120,64 @@ int idagomla() {
 }
 
 int textAtbash() {
-    int curr_idx = 0;
+    int curr_idx = 0, space_ctr;
     char reverse[strlen(idaGomla)];
     char tmp_str[TXT] = {0};
-    for (int i = 0; i < strlen(idaGomla); ++i) {
-        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
-    }
+    reverseString(reverse);
     for (int i = 0; i < strlen(text); i++) { // i == current start index
+        space_ctr = 0;
         for (int j = 0; j < strlen(idaGomla); j++) {
-            if (isspace(text[i + j])) { // add and ignore spaces
-                tmp_str[curr_idx++] = text[i + j];
-                j--; // check word[j] in next iteration
-            } else if (text[i + j] == idaGomla[j]) {
-                tmp_str[curr_idx++] = idaGomla[j];
-            }
-            if (j == strlen(idaGomla) - 1) {
+            if ((j + space_ctr) == strlen(idaGomla) - 1) {
                 tmp_str[curr_idx++] = TILDA;
             }
-            if (text[i + j] != idaGomla[j]) {
-                curr_idx -= j;
+            if (isspace(text[i + j + space_ctr])) { // add and ignore spaces
+                if (j == 0) {
+                    break;
+                }
+                tmp_str[curr_idx++] = text[i + j + space_ctr++];
+                j--; // check word[j] in next iteration
+            } else if (text[i + j + space_ctr] == idaGomla[j]) {
+                tmp_str[curr_idx++] = idaGomla[j];
+            } else {
+                curr_idx -= (j + space_ctr);
                 break;
             }
         }
+        //Check the reverse Atbash
+        space_ctr = 0;
         for (int j = 0; j < strlen(reverse); j++) {
-            if (isspace(text[i + j])) { // add and ignore spaces
-                tmp_str[curr_idx++] = text[i + j];
-                j--; // check word[j] in next iteration
-            } else if (text[i + j] == reverse[j]) {
-                tmp_str[curr_idx++] = reverse[j];
-            }
-            if (j == strlen(reverse) - 1) {
+            if ((j + space_ctr) == strlen(reverse) - 1) {
                 tmp_str[curr_idx++] = TILDA;
             }
-            if (text[i + j] != reverse[j]) {
-                curr_idx -= j;
+            if (isspace(text[i + j + space_ctr])) { // add and ignore spaces
+                if (j == 0) {
+                    break;
+                }
+                tmp_str[curr_idx++] = text[i + j + space_ctr++];
+                j--; // check word[j] in next iteration
+            } else if (text[i + j + space_ctr] == reverse[j]) {
+                tmp_str[curr_idx++] = reverse[j];
+            } else {
+                curr_idx -= (j + space_ctr);
                 break;
             }
         }
     }
     for (int k = strlen(tmp_str); k >= 0; k--) {
         if (tmp_str[k] == TILDA) {
+            tmp_str[k] = 0;
             break;
         }
-        tmp_str[k] = 0;
+//        tmp_str[k] = 0;
     }
     puts(tmp_str);
     return 0;
+}
+
+void reverseString(char *reverse) {
+    for (int i = 0; i < strlen(idaGomla); ++i) {
+        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
+    }
 }
 
 //int
