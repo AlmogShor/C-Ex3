@@ -5,6 +5,11 @@
 #define WORD 30
 #define TILDA '~'
 
+char word[WORD];
+char text[TXT];
+char idaGomla[WORD];
+int word_val;
+
 int readWord();
 
 int readText();
@@ -16,6 +21,10 @@ int textVal();
 int calcCharVal(char c);
 
 int idagomla();
+
+void initAdded();
+
+int findMatches();
 
 int textAtbash();
 

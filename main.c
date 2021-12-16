@@ -3,15 +3,19 @@
 #include <ctype.h>
 #include "Ex3.h"
 
-char word[WORD];
-char text[TXT];
-char idaGomla[WORD];
-int word_val;
-
 int main() {
-//    readWord();
-//    readText();
-//    word_val = wordVal(word);
+    readWord();
+    readText();
+    word_val = wordVal(word);
+    idagomla();
+    printf("Gematria Sequences: ");
+    textVal();
+    printf("\n");
+    printf("Atbash Sequences: ");
+    textAtbash();
+    printf("\n");
+    printf("Anagram Sequences: ");
+    findMatches();
 
     return 0;
 
@@ -157,14 +161,36 @@ int textAtbash() {
 int findMatches() {
     int tmp = strlen(word) * sizeof(int);
     int is_added[tmp];
-    for (int i = 0; i < tmp; i++) {
-        is_added[i] = 0;
-    }
-    for (int i = 0; i < strlen(text) * sizeof(int); ++i) {
-        for (int j = 0; j <tmp; ++j) {
-
+    char ans[strlen(word)];
+    int cnt, flag;
+    initAdded(tmp, is_added);
+    for (int i = 0; i < strlen(text); i++) {
+        flag = cnt = 0;
+        for (int j = 0; j < strlen(word); j++) {
+            if (is_added[j] == 0 && is_added[j] == word[i]) {
+                is_added[j] = 1;
+                flag = 1;
+                ans[i] = word[i];
+                break;
+            }
+        }
+        for (int j = 0; j < strlen(word); ++j) {
+            if (is_added[j] == 1) {
+                cnt++;
+            }
+        }
+        if (cnt == strlen(word) || flag == 0) {
+            initAdded(tmp, is_added);
+            puts(ans);
+            putchar(TILDA);
         }
     }
 
+    return 0;
+}
 
+void initAdded(int tmp, int *is_added) {
+    for (int k = 0; k < tmp; k++) {
+        is_added[k] = 0;
+    }
 }
