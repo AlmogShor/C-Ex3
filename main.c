@@ -153,3 +153,18 @@ int textAtbash() {
 
 //int
 // array of int -> 0 = not added, 1 = added (index = char at index)
+
+int findMatches() {
+    int tmp = strlen(word) * sizeof(int);
+    int is_added[tmp];
+    for (int i = 0; i < tmp; i++) {
+        is_added[i] = 0;
+    }
+    for (int i = 0; i < strlen(text) * sizeof(int); ++i) {
+        for (int j = 0; j <tmp; ++j) {
+
+        }
+    }
+
+
+}

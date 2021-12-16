@@ -19,4 +19,6 @@ int idagomla();
 
 int textAtbash();
 
+int findMatches();
+
 #endif //C_EX3_EX3_H
