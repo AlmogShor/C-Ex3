@@ -7,6 +7,7 @@ void reverseString(char *reverse);
 
 int main() {
     readWord();
+    printf("\n");
     readText();
     printf("\n");
     word_val = wordVal(word);
@@ -120,45 +121,50 @@ int idagomla() {
 }
 
 int textAtbash() {
-    int curr_idx = 0, space_ctr;
-    char reverse[strlen(idaGomla)];
+    int curr_idx = 0, spaceCnt;
+    char reverse[WORD] ={0};
     char tmp_str[TXT] = {0};
     reverseString(reverse);
     for (int i = 0; i < strlen(text); i++) { // i == current start index
-        space_ctr = 0;
+        //Checking the Atbash sequence
+        spaceCnt = 0;
         for (int j = 0; j < strlen(idaGomla); j++) {
-            if ((j + space_ctr) == strlen(idaGomla) - 1) {
-                tmp_str[curr_idx++] = TILDA;
-            }
-            if (isspace(text[i + j + space_ctr])) { // add and ignore spaces
+            if (isspace(text[i + j + spaceCnt])) { // add and ignore spaces
                 if (j == 0) {
                     break;
                 }
-                tmp_str[curr_idx++] = text[i + j + space_ctr++];
+                tmp_str[curr_idx++] = text[i + j + spaceCnt++];
                 j--; // check word[j] in next iteration
-            } else if (text[i + j + space_ctr] == idaGomla[j]) {
+                continue;
+            } if (text[i + j + spaceCnt] == idaGomla[j]) {
                 tmp_str[curr_idx++] = idaGomla[j];
             } else {
-                curr_idx -= (j + space_ctr);
+                curr_idx -= (j + spaceCnt);
+                break;
+            }
+            if ((j) == strlen(idaGomla) - 1) {
+                tmp_str[curr_idx++] = TILDA;
                 break;
             }
         }
         //Check the reverse Atbash
-        space_ctr = 0;
+        spaceCnt = 0;
         for (int j = 0; j < strlen(reverse); j++) {
-            if ((j + space_ctr) == strlen(reverse) - 1) {
-                tmp_str[curr_idx++] = TILDA;
-            }
-            if (isspace(text[i + j + space_ctr])) { // add and ignore spaces
+            if (isspace(text[i + j + spaceCnt])) { // add and ignore spaces
                 if (j == 0) {
                     break;
                 }
-                tmp_str[curr_idx++] = text[i + j + space_ctr++];
+                tmp_str[curr_idx++] = text[i + j + spaceCnt++];
                 j--; // check word[j] in next iteration
-            } else if (text[i + j + space_ctr] == reverse[j]) {
+                continue;
+            }if (text[i + j + spaceCnt] == reverse[j]) {
                 tmp_str[curr_idx++] = reverse[j];
             } else {
-                curr_idx -= (j + space_ctr);
+                curr_idx -= (j + spaceCnt);
+                break;
+            }
+            if ((j) == strlen(reverse) - 1) {
+                tmp_str[curr_idx++] = TILDA;
                 break;
             }
         }
