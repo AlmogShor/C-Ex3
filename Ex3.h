@@ -23,9 +23,9 @@ int calcCharVal(char c);
 
 int idagomla();
 
-void initAdded();
+int textAnagram();
 
-int findMatches();
+int isAnagram(char *check);
 
 int textAtbash();
 

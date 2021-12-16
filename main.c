@@ -7,7 +7,6 @@ void reverseString(char *reverse);
 
 int main() {
     readWord();
-    printf("\n");
     readText();
     printf("\n");
     word_val = wordVal(word);
@@ -19,7 +18,7 @@ int main() {
     textAtbash();
     printf("\n");
     printf("Anagram Sequences: ");
-    findMatches();
+    textAnagram();
 
     return 0;
 
@@ -183,49 +182,60 @@ int textAtbash() {
     puts(tmp_str);
     return 0;
 }
-
-//void reverseString() {
-//    for (int i = 0; i < strlen(idaGomla); ++i) {
-//        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
-//    }
-//}
-
-//int
 // array of int -> 0 = not added, 1 = added (index = char at index)
 
-int findMatches() {
-    int tmp = strlen(word) * sizeof(int);
-    int is_added[tmp];
-    char ans[strlen(word)];
-    int cnt, flag;
-    initAdded(tmp, is_added);
-    for (int i = 0; i < strlen(text); i++) {
-        flag = cnt = 0;
-        for (int j = 0; j < strlen(word); j++) {
-            if (is_added[j] == 0 && is_added[j] == word[i]) {
-                is_added[j] = 1;
-                flag = 1;
-                ans[i] = word[i];
+int textAnagram() {
+    char check[WORD];
+    int start = 0, end = 0, idx, flag, mowgli = 0;
+
+    for (int i = 0; i < strlen(text); ++i) {
+        start = end = i;
+        idx = 0;
+        while (1) {
+//            end++;
+            if (isspace(text[end])) {
+//                check[idx++] = text[end];
+                end++;
+                continue;
+            }
+            check[idx++] = text[end++];
+            if (idx == strlen(word) - 1) {
                 break;
             }
         }
-        for (int j = 0; j < strlen(word); ++j) {
-            if (is_added[j] == 1) {
-                cnt++;
+        flag = isAnagram(check);
+        if (flag) {
+            if (!mowgli) {
+                putchar(TILDA);
             }
-        }
-        if (cnt == strlen(word) || flag == 0) {
-            initAdded(tmp, is_added);
-            puts(ans);
-            putchar(TILDA);
+            for (int j = start; j <= end; ++j) {
+                putchar(text[j]);
+            }
+            mowgli++;
         }
     }
-
     return 0;
 }
 
-void initAdded(int tmp, int *is_added) {
-    for (int k = 0; k < tmp; k++) {
-        is_added[k] = 0;
+int isAnagram(char *check) {
+    // create two num arrays and initialize their value as 0
+    int adi[WORD] = {0}, almog[WORD] = {0}, i = 0;
+
+    // use while loop to check arr1 is not null
+    while (word[i] != '\0') {
+        adi[word[i] - 'a']++;
+        i++;
     }
+    i = 0;
+
+    // use while loop to check arr2 is not null
+    while (check[i] != '\0') {
+        almog[check[i] - 'a']++;
+        i++;
+    }
+    for (i = 0; i < WORD; i++) {
+        if (adi[i] != almog[i])
+            return 0;
+    }
+    return 1;
 }
