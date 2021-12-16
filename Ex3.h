@@ -25,7 +25,9 @@ int idagomla();
 
 int textAnagram();
 
-int isAnagram(char *check);
+int isAnagram(char *check, char  *tmp);
+
+void sort(char *arr);
 
 int textAtbash();
 

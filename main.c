@@ -16,10 +16,9 @@ int main() {
     printf("\n");
     printf("Atbash Sequences: ");
     textAtbash();
-    printf("\n");
     printf("Anagram Sequences: ");
     textAnagram();
-
+    printf("\n");
     return 0;
 
 }
@@ -30,10 +29,10 @@ int readWord() { // todo: how to check if scan was successful
     fgets(inp_word, WORD, stdin);
     for (int i = 0; i < WORD; ++i) {
         c = inp_word[i];
-        word[i] = c;
         if (isspace(c)) {
             return 0;
         }
+        word[i] = c;
     }
     return 1;
 }
@@ -44,10 +43,10 @@ int readText() {
     fgets(inp_txt, TXT, stdin);
     for (int i = 0; i < TXT; ++i) {
         c = inp_txt[i];
-        text[i] = c;
         if (c == TILDA) {
             return 0;
         }
+        text[i] = c;
     }
     return 1;
 }
@@ -96,7 +95,7 @@ int textVal() {
     return 0;
 }
 
-int calcCharVal(char c) { // todo: toupper/tolower functions?
+int calcCharVal(char c) {
     int val = 0;
     if (c >= 'a' && c <= 'z') {
         val += c - 'a' + 1;
@@ -186,15 +185,16 @@ int textAtbash() {
 
 int textAnagram() {
     char check[WORD];
+    char tmp[WORD];
+    strcpy(tmp, word);
+    sort(tmp);
     int start = 0, end = 0, idx, flag, mowgli = 0;
 
     for (int i = 0; i < strlen(text); ++i) {
         start = end = i;
         idx = 0;
         while (1) {
-//            end++;
             if (isspace(text[end])) {
-//                check[idx++] = text[end];
                 end++;
                 continue;
             }
@@ -203,9 +203,9 @@ int textAnagram() {
                 break;
             }
         }
-        flag = isAnagram(check);
+        flag = isAnagram(check, tmp);
         if (flag) {
-            if (!mowgli) {
+            if (mowgli) {
                 putchar(TILDA);
             }
             for (int j = start; j <= end; ++j) {
@@ -217,25 +217,26 @@ int textAnagram() {
     return 0;
 }
 
-int isAnagram(char *check) {
-    // create two num arrays and initialize their value as 0
-    int adi[WORD] = {0}, almog[WORD] = {0}, i = 0;
-
-    // use while loop to check arr1 is not null
-    while (word[i] != '\0') {
-        adi[word[i] - 'a']++;
-        i++;
+void sort(char *arr) {
+    int temp = 0, i, l;
+    for (i = 0; i < strlen(arr) - 1; i++) {
+        for (l = i + 1; l < strlen(arr); l++) {
+            if (arr[i] > arr[l]) {
+                temp = arr[i];
+                arr[i] = arr[l];
+                arr[l] = temp;
+            }
+        }
     }
-    i = 0;
+}
 
-    // use while loop to check arr2 is not null
-    while (check[i] != '\0') {
-        almog[check[i] - 'a']++;
-        i++;
-    }
-    for (i = 0; i < WORD; i++) {
-        if (adi[i] != almog[i])
+
+int isAnagram(char *check, char *tmp) {
+    sort(check);
+    for (int i = 0; i < strlen(check); i++) {
+        if (check[i] != tmp[i]) {
             return 0;
+        }
     }
     return 1;
 }
