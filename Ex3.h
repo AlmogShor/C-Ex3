@@ -8,6 +8,7 @@
 char word[WORD];
 char text[TXT];
 char idaGomla[WORD];
+char reverse[WORD];
 int word_val;
 
 int readWord();

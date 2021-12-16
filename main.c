@@ -117,14 +117,16 @@ int idagomla() {
             idaGomla[i] = word[i];
         }
     }
+    for (int i = 0; i < strlen(idaGomla); ++i) {
+        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
+    }
     return 0;
 }
 
 int textAtbash() {
     int curr_idx = 0, spaceCnt;
-    char reverse[WORD] ={0};
+//    char reverse[WORD];
     char tmp_str[TXT] = {0};
-    reverseString(reverse);
     for (int i = 0; i < strlen(text); i++) { // i == current start index
         //Checking the Atbash sequence
         spaceCnt = 0;
@@ -136,7 +138,8 @@ int textAtbash() {
                 tmp_str[curr_idx++] = text[i + j + spaceCnt++];
                 j--; // check word[j] in next iteration
                 continue;
-            } if (text[i + j + spaceCnt] == idaGomla[j]) {
+            }
+            if (text[i + j + spaceCnt] == idaGomla[j]) {
                 tmp_str[curr_idx++] = idaGomla[j];
             } else {
                 curr_idx -= (j + spaceCnt);
@@ -157,7 +160,8 @@ int textAtbash() {
                 tmp_str[curr_idx++] = text[i + j + spaceCnt++];
                 j--; // check word[j] in next iteration
                 continue;
-            }if (text[i + j + spaceCnt] == reverse[j]) {
+            }
+            if (text[i + j + spaceCnt] == reverse[j]) {
                 tmp_str[curr_idx++] = reverse[j];
             } else {
                 curr_idx -= (j + spaceCnt);
@@ -169,7 +173,7 @@ int textAtbash() {
             }
         }
     }
-    for (int k = strlen(tmp_str); k >= 0; k--) {
+    for (int k = curr_idx; k >= 0; k--) {
         if (tmp_str[k] == TILDA) {
             tmp_str[k] = 0;
             break;
@@ -180,11 +184,11 @@ int textAtbash() {
     return 0;
 }
 
-void reverseString(char *reverse) {
-    for (int i = 0; i < strlen(idaGomla); ++i) {
-        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
-    }
-}
+//void reverseString() {
+//    for (int i = 0; i < strlen(idaGomla); ++i) {
+//        reverse[i] = idaGomla[strlen(idaGomla) - 1 - i];
+//    }
+//}
 
 //int
 // array of int -> 0 = not added, 1 = added (index = char at index)
