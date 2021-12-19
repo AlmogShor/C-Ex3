@@ -6,7 +6,6 @@
 int main() {
     readWord();
     readText();
-    printf("\n");
     word_val = wordVal(word);
     idagomla();
     printf("Gematria Sequences: ");
@@ -191,7 +190,7 @@ int textAnagram() {
         idx = 0;
         while (1) {
             if (isspace(text[end])) {
-                if (start == end) {
+                if (start == end) { // break loop if first character is a space
                     break;
                 }
                 end++;
