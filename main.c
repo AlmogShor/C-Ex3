@@ -22,7 +22,7 @@ int main() {
 /* read input */
 
 // get input word from command line
-int readWord() { // todo: how to check if scan was successful
+int readWord() {
     char inp_word[WORD];
     char c;
     fgets(inp_word, WORD, stdin);
@@ -40,11 +40,12 @@ int readWord() { // todo: how to check if scan was successful
 int readText() {
     char c;
     for (int i = 0; i < TXT; ++i) {
-        scanf("%c", &c);
-        if (c == TILDA) { // tilda (~) marks the end of the text
-            return 0;
+        if (scanf("%c", &c) == 1) { // check if scan is successful
+            if (c == TILDA) { // tilda (~) marks the end of the text
+                return 0;
+            }
+            text[i] = c;
         }
-        text[i] = c;
     }
     return 1;
 }
