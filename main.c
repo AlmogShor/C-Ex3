@@ -3,8 +3,6 @@
 #include <ctype.h>
 #include "Ex3.h"
 
-void reverseString(char *reverse);
-
 int main() {
     readWord();
     readText();
@@ -38,11 +36,9 @@ int readWord() { // todo: how to check if scan was successful
 }
 
 int readText() {
-    char inp_txt[TXT];
     char c;
-    fgets(inp_txt, TXT, stdin);
     for (int i = 0; i < TXT; ++i) {
-        c = inp_txt[i];
+        scanf("%c", &c);
         if (c == TILDA) {
             return 0;
         }
@@ -143,7 +139,7 @@ int textAtbash() {
                 curr_idx -= (j + spaceCnt);
                 break;
             }
-            if ((j) == strlen(idaGomla) - 1) {
+            if (j == strlen(idaGomla) - 1) {
                 tmp_str[curr_idx++] = TILDA;
                 break;
             }
@@ -165,7 +161,7 @@ int textAtbash() {
                 curr_idx -= (j + spaceCnt);
                 break;
             }
-            if ((j) == strlen(reverse) - 1) {
+            if (j == strlen(reverse) - 1) {
                 tmp_str[curr_idx++] = TILDA;
                 break;
             }
@@ -176,12 +172,11 @@ int textAtbash() {
             tmp_str[k] = 0;
             break;
         }
-//        tmp_str[k] = 0;
+        tmp_str[k] = 0;
     }
     puts(tmp_str);
     return 0;
 }
-// array of int -> 0 = not added, 1 = added (index = char at index)
 
 int textAnagram() {
     char check[WORD];
@@ -190,25 +185,30 @@ int textAnagram() {
     sort(tmp);
     int start = 0, end = 0, idx, flag, mowgli = 0;
 
-    for (int i = 0; i < strlen(text); ++i) {
+    // if i = strlen(text) - strlen(tmp) + 1 -> there are fewer letters than the word itself
+    for (int i = 0; i < (strlen(text) - strlen(tmp) + 1); i++) {
         start = end = i;
         idx = 0;
         while (1) {
             if (isspace(text[end])) {
+                if (start == end) {
+                    break;
+                }
                 end++;
-                continue;
+            } else {
+                check[idx++] = text[end++];
             }
-            check[idx++] = text[end++];
-            if (idx == strlen(word) - 1) {
+            if (idx == strlen(word)) {
                 break;
             }
         }
+        sort(check);
         flag = isAnagram(check, tmp);
         if (flag) {
             if (mowgli) {
                 putchar(TILDA);
             }
-            for (int j = start; j <= end; ++j) {
+            for (int j = start; j < end; j++) {
                 putchar(text[j]);
             }
             mowgli++;
@@ -218,13 +218,15 @@ int textAnagram() {
 }
 
 void sort(char *arr) {
-    int temp = 0, i, l;
-    for (i = 0; i < strlen(arr) - 1; i++) {
-        for (l = i + 1; l < strlen(arr); l++) {
-            if (arr[i] > arr[l]) {
+    int i, j, flag = 1, temp;
+    for (i = 0; i < strlen(arr) - 1 && flag; i++) {
+        flag = 0;
+        for (j = i + 1; j < strlen(arr); j++) {
+            if (arr[i] > arr[j]) {
                 temp = arr[i];
-                arr[i] = arr[l];
-                arr[l] = temp;
+                arr[i] = arr[j];
+                arr[j] = temp;
+                flag = 1;
             }
         }
     }
@@ -232,7 +234,6 @@ void sort(char *arr) {
 
 
 int isAnagram(char *check, char *tmp) {
-    sort(check);
     for (int i = 0; i < strlen(check); i++) {
         if (check[i] != tmp[i]) {
             return 0;
