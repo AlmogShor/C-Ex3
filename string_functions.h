@@ -1,5 +1,5 @@
-#ifndef C_EX3_EX3_H
-#define C_EX3_EX3_H
+#ifndef C_EX3_STRING_FUNCTIONS_H
+#define C_EX3_STRING_FUNCTIONS_H
 
 #define TXT 1024
 #define WORD 30
@@ -33,4 +33,4 @@ int textAtbash();
 
 int findMatches();
 
-#endif //C_EX3_EX3_H
+#endif //C_EX3_STRING_FUNCTIONS_H

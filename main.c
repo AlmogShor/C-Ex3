@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "Ex3.h"
+#include "string_functions.h"
 
 int main() {
     readWord();
@@ -17,7 +17,6 @@ int main() {
     textAnagram();
     printf("\n");
     return 0;
-
 }
 
 /* read input */
