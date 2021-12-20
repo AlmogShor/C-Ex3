@@ -15,7 +15,6 @@ int main() {
     textAtbash();
     printf("Anagram Sequences: ");
     textAnagram();
-    printf("\n");
     return 0;
 }
 
